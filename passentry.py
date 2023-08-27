@@ -8,7 +8,7 @@ def store_credentials(website, username, password):
 
 
 def generate_pass():
-    characters = string.ascii_letters + string.digits
+    characters = string.ascii_letters + string.digits + string.punctuation
     generated_string = ''.join(random.choices(characters, k=12))
     return generated_string
 
