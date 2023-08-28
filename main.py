@@ -9,17 +9,28 @@ window.config(padx=50, pady=50)
 
 
 def save():
-    passentry.store_credentials(website_entry.get(),
+    passentry.store_credentials(appName_entry.get(),
                                 login_entry.get(),
-                                pass_entry.get())
-    website_entry.delete(0, "end")
+                                pass_entry.get(),)
+    appName_entry.delete(0, "end")
     login_entry.delete(0, "end")
     pass_entry.delete(0, "end")
     messagebox.showinfo(title="Save status", message="Credentials saved!")
 
+
 def generate():
     pass_entry.delete(0, "end")
     pass_entry.insert(0, passentry.generate_pass())
+    messagebox.showinfo(title="Password Generated", message="Password has been copied to clipboard!")
+
+
+def retrieve():
+    website_name = appName_entry.get()
+    username, password, code = passentry.retrieve_credentials(website_name)
+    if code < 0:
+        messagebox.showwarning(title="Results", message="No matching records were found")
+    else:
+        messagebox.showinfo(title="Results", message=f"{website_name}\nUsername:{username}\nPassword:{password}")
 
 
 # This frame was for potentially adding this to a multiscreen application in the future
@@ -34,17 +45,19 @@ logo_canvas.grid(column=0, row=0, columnspan=3)
 # Website name
 login_canvas = Frame(passmngr_frame)
 login_canvas.grid(column=0, row=1, columnspan=3)
-website_lbl = Label(login_canvas, text="Website:")
-website_lbl.grid(column=0, row=1, sticky="E")
-website_entry = Entry(login_canvas, width=52)
-website_entry.focus()
-website_entry.grid(column=1, row=1, sticky="W", columnspan=2)
+appName_lbl = Label(login_canvas, text="Website:")
+appName_lbl.grid(column=0, row=1, sticky="E")
+appName_entry = Entry(login_canvas, width=33)
+appName_entry.focus()
+appName_entry.grid(column=1, row=1, sticky="W")
+find_add = Button(login_canvas, text="Find Credentials", command=retrieve, width=19)
+find_add.grid(column=2, row=1, sticky="W")
 
 # url
-url_lbl = Label(login_canvas, text="URL:")
-url_lbl.grid(column=0, row=2, sticky="E")
-url_entry = Entry(login_canvas, width=52)
-url_entry.grid(column=1, row=2, sticky="W", columnspan=2)
+# url_lbl = Label(login_canvas, text="URL:")
+# url_lbl.grid(column=0, row=2, sticky="E")
+# url_entry = Entry(login_canvas, width=52)
+# url_entry.grid(column=1, row=2, sticky="W", columnspan=2)
 
 # login
 login_lbl = Label(login_canvas, text="User/Email:")
